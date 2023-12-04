@@ -1,0 +1,84 @@
+{
+	"info": {
+		"_postman_id": "d3412611-a52d-43b0-b4fc-417ede14437b",
+		"name": "demo-user",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create-user",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "security",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"flavio suarez\",\r\n  \"email\": \"fjosescarmona@gmail.com\",\r\n  \"password\": \"mypass1234**\",\r\n  \"phones\": [\r\n    {\r\n      \"number\": \"934913223\",\r\n      \"city_code\": \"1\",\r\n      \"country_code\": \"51\"\r\n    },\r\n    {\r\n      \"number\": \"934913224\",\r\n      \"city_code\": \"1\",\r\n      \"country_code\": \"51\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9091/v1/user/create-user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9091",
+					"path": [
+						"v1",
+						"user",
+						"create-user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-user",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "security",
+						"value": "test",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9091/v1/user/get-user?id=299d4ead-7ca1-4d6e-9a42-be1d574dbd0b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9091",
+					"path": [
+						"v1",
+						"user",
+						"get-user"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "299d4ead-7ca1-4d6e-9a42-be1d574dbd0b"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

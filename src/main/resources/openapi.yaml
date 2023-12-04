@@ -1,0 +1,189 @@
+openapi: "3.0.0"
+info:
+  description: "User register demo for NISUM"
+  version: "1.0.0"
+  title: 'users'
+  contact:
+    email: "fjosescarmona@gmail.com"
+servers:
+  - url: /v1/user
+
+paths:
+
+  /create-user:
+    post:
+      tags:
+        - users
+      operationId: createUser
+      description: Create a new user
+      parameters:
+        - in: header
+          name: security
+          schema:
+            type: "string"
+            description: "token"
+          required: true
+      requestBody:
+        description: "body de prueba"
+        content:
+          application/json;charset=UTF-8:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        200:
+          description: "user created ok"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        409:
+          description: "Usuario existente"
+          content:
+            application/json:
+              example: |
+                {
+                "mensaje": "Este Correo ya ha sido registrado"
+                }
+              schema:
+                $ref: '#/components/schemas/UserError'
+        500:
+          description: "Internal server error"
+          content:
+            application/json:
+              example: |
+                {
+                "mensaje": "Error creating user"
+                }
+              schema:
+                $ref: '#/components/schemas/UserError'
+  /get-user:
+    get:
+      tags:
+        - users
+      operationId: getUser
+      description: Create a new user
+      parameters:
+        - in: header
+          name: security
+          schema:
+            type: "string"
+            description: "token"
+          required: true
+        - in: query
+          name: id
+          schema:
+            type: "string"
+            description: "user id"
+          required: true
+      responses:
+        200:
+          description: "user created ok"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        404:
+          description: "Usuario no existe"
+          content:
+            application/json:
+              example: |
+                {
+                "mensaje": "User not found"
+                }
+              schema:
+                $ref: '#/components/schemas/UserError'
+        500:
+          description: "Internal server error"
+          content:
+            application/json:
+              example: |
+                {
+                "mensaje": "Error getting user"
+                }
+              schema:
+                $ref: '#/components/schemas/UserError'
+
+components:
+  schemas:
+    UserRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "flavio"
+        email:
+          type: string
+          example: "fjosescarmona@gmail.com"
+          pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        password:
+          type: string
+          description: "minimo 8 caracteres, minimo una mayuscula, minimo un numero, minimo un caracter de los siguientes #$%&*"
+          example: "Mypass1234**"
+          pattern: '^(?=.*[A-Z])(?=.*[0-9])(?=.*[#$%&*]).{8,}$'
+        phones:
+          type: array
+          items:
+            $ref: '#/components/schemas/phone'
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "02b8b083-aebb-4135-b3eb-33a0817ad2fc"
+        name:
+          type: string
+          example: "flavio"
+        email:
+          type: string
+          example: "fjosescarmona@gmail.com"
+          pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        password:
+          type: string
+          description: "minimo 8 caracteres, minimo una mayuscula, minimo un numero, minimo un caracter de los siguientes #$%&*"
+          example: "Mypass1234**"
+          pattern: '^(?=.*[A-Z])(?=.*[0-9])(?=.*[#$%&*]).{8,}$'
+        phones:
+          type: array
+          items:
+            $ref: '#/components/schemas/phone'
+        created:
+          type: string
+          format: datetime
+          example: '2023-12-01T22:03:53.482'
+        modified:
+          type: string
+          format: datetime
+          example: '2023-12-01T22:03:53.482'
+        last_login:
+          type: string
+          format: datetime
+          example: '2023-12-01T22:03:53.482'
+        token:
+          type: string
+          example: "c7409b48-2b0d-49d4-aa81-9b1ef54e1d09"
+        is_active:
+          type: boolean
+          example: true
+    phone:
+      type: object
+      properties:
+        number:
+          type: string
+          example: "934913223"
+        city_code:
+          type: string
+          example: "1"
+        country_code:
+          type: string
+          example: "51"
+    UserError:
+      type: object
+      properties:
+        mensaje:
+          type: string
+      example: |
+        {
+          'mensaje': 'mensaje de error'
+        }
+      required:
+        - mensaje
