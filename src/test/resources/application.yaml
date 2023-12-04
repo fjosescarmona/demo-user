@@ -1,0 +1,11 @@
+server.port: 9091
+spring:
+  r2dbc:
+    url: 'r2dbc:h2:mem:///./testdb;DB_CLOSE_DELAY=-1'
+
+logging:
+  level:
+    com.demo.user: TRACE
+    org.hibernate: TRACE
+    org.springframework.data: TRACE
+    org.h2: TRACE
